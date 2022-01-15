@@ -1,6 +1,8 @@
 # 🎣 Mass Webhooks
 Mass Webhooks is an application to easily add a webhook to all of your github repositories!
 
+**Note: currently only works for _public_ repositories. Support for private repositories will be added later!**
+
 ## 💡 How to use 
 To use this application, simply follow these steps:
  1. Clone the repository

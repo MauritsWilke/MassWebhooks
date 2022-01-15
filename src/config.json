@@ -1,43 +1,14 @@
 {
-	"use": 1,
-	"exclude": [],
+	"key": "your-key-here",
+	"use": 0,
 	"mode": "create",
-	"testMode": "tests",
-	"fullLogging": false,
 	"webhooks": [
 		{
-			"nickname": "Dutch Devs",
-			"url": "https://discord.com/api/webhooks/931902494785806356/yDJKWEOJbKWNnstdTqkQkjMX4dj1IqsnAC7ksfaXt8w3lqcbeEYCToRaCnLq_VbcJ3Bq/github",
+			"url": "your-url-here",
 			"repos": "*",
 			"events": [
 				"*"
-			],
-			"webhookIDs": {
-				"AdventOfCode2021": 338365508
-			}
-		},
-		{
-			"nickname": "Private Server",
-			"url": "https://discord.com/api/webhooks/931945055999123517/nHfh_lUbSQtDSX6TKtgEmRK6zb4YZjtPfKWQog1YgvWbcX_E9qkhoZz8XKUI43s9Kaa8/github",
-			"repos": "*",
-			"events": [
-				"*"
-			],
-			"webhookIDs": {
-				"AdventOfCode2021": 338365703,
-				"BedwarsGuildBot": 338365706,
-				"bedwarsGuildBotV2": 338365718,
-				"HyAPI": 338365727,
-				"HyAPI-Website": 338365732,
-				"HypixelGuildBot": 338365736,
-				"HypixelGuildBotTemplate": 338365738,
-				"MassWebhooks": 338365741,
-				"MauritsWilke": 338365742,
-				"MauritsWilke.com": 338365745,
-				"Simulation": 338365747,
-				"StatsifyStats": 338365750,
-				"toolbox": 338365755
-			}
+			]
 		}
 	]
 }

@@ -25,11 +25,9 @@ async function main(webhook) {
 			username: user.login,
 		})
 		repos.forEach((v, i, a) => a[i] = v.name);
-		webhook.repos = repos
+		const filtered = repos.filter(v => !webhook?.exclude?.includes(v));
+		webhook.repos = filtered
 	}
-
-	// ! DEL
-	// webhook.repos = webhook.repos.slice(0, 1);
 
 	switch (webhook?.mode || config.mode) {
 		case 'create': {
@@ -63,18 +61,20 @@ async function main(webhook) {
 					})
 
 					if (deliveries[0]?.status === "OK") console.log(success(` > Succesfully created a webhook for ${repo} with id: ${data.id}`))
-					else throw new Error(`Failed to deliver the test ping for ${repo} with id: ${data.id}`)
+					else throw new Error(`Failed to deliver the test ping for ${repo} with id: ${data.id}\n\tThe webhook most likely is still created though.`)
 					webhook.webhookIDs = { ...webhook.webhookIDs, ...webhookIDs }
 				} catch (e) {
 					console.log(error(` ! Failed to create a webhook for ${repo}.`))
-					console.log(error(e?.response?.data?.errors?.[0].message || e.message || e))
+					console.log(error(`\t${e?.response?.data?.errors?.[0].message || e.message || e}`))
 					if (config?.fullLogging) console.log(e)
 				}
 			}
 		} break;
 
 		case "delete": {
-			for (const repo of webhook.repos) {
+			const activeHooks = Object.keys(webhook?.webhookIDs ?? {})
+			const repos = webhook.repos.filter(v => activeHooks.includes(v))
+			for (const repo of repos) {
 				try {
 					await octokit.request('DELETE /repos/{owner}/{repo}/hooks/{hook_id}', {
 						owner: user.login,
@@ -85,6 +85,32 @@ async function main(webhook) {
 					delete webhook.webhookIDs[repo]
 				} catch (e) {
 					console.log(error(` ! Failed to delete the webhook for ${repo}, it may no longer exist.`))
+					console.log(error(`\tTo manually delete this webhook, go to https://github.com/${user.login}/${repo}/settings/hooks`))
+					if (config?.fullLogging) console.log(e)
+				}
+			}
+		} break;
+
+		case 'test': {
+			for (const repo of webhook.repos) {
+				try {
+					const testMode = config?.testMode === "tests" ? "tests" : "pings";
+					await octokit.request(`POST /repos/{owner}/{repo}/hooks/{hook_id}/${testMode}`, {
+						owner: user.login,
+						repo: repo,
+						hook_id: webhook.webhookIDs[repo]
+					})
+
+					const { data: deliveries } = await octokit.request('GET /repos/{owner}/{repo}/hooks/{hook_id}/deliveries', {
+						owner: user.login,
+						repo: repo,
+						hook_id: webhook.webhookIDs[repo]
+					})
+
+					if (deliveries[0]?.status === "OK") console.log(success(` > Test successfull for ${repo}`))
+					else throw new Error(`Failed to deliver the test ping for ${repo} with id: ${webhook.webhookIDs[repo]}`)
+				} catch (e) {
+					console.log(error(` ! Test failed for ${repo}.\n\tThis likely happened because of the delay in GitHub data updates`))
 					if (config?.fullLogging) console.log(e)
 				}
 			}
@@ -103,4 +129,4 @@ if (webhook === "*") {
 	}
 } else await main(webhook);
 
-console.log(defaultLog(`\nThanks for using @MauritsWilke/MassWebhooks`))
+console.log(defaultLog(`\nThanks for using @MauritsWilke/MassWebhooks!`))
