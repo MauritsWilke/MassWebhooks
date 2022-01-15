@@ -5,7 +5,7 @@ Mass Webhooks is an application to easily add a webhook to all of your github re
 
 ## 💡 How to use 
 To use this application, simply follow these steps:
- 1. Clone the repository
+ 1. Clone the repository.
  ```sh
  git clone https://github.com/MauritsWilke/MassWebhooks.git
  ```
@@ -14,7 +14,7 @@ To use this application, simply follow these steps:
  npm i
  ```
  3. Navigate to `src/config.json` and edit the boilerplate settings.
- 4. Run the application using 
+ 4. Run the application using.
  ```
 node --experimental-json-modules --no-warnings .
  ```
