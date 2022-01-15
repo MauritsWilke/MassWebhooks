@@ -29,7 +29,7 @@ async function main(webhook) {
 	}
 
 	// ! DEL
-	webhook.repos = webhook.repos.slice(0, 2);
+	// webhook.repos = webhook.repos.slice(0, 1);
 
 	switch (webhook?.mode || config.mode) {
 		case 'create': {
@@ -97,8 +97,9 @@ async function main(webhook) {
 }
 
 if (webhook === "*") {
-	for (const webhook of config?.webhooks) {
-		await main(webhook);
+	for (const webhook in config?.webhooks) {
+		if (config?.exclude?.includes(+webhook)) continue;
+		await main(config.webhooks[webhook]);
 	}
 } else await main(webhook);
 
