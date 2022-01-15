@@ -21,8 +21,10 @@ async function main(webhook) {
 
 	const oldConfigRepos = webhook.repos;
 	if (webhook.repos === "*") {
-		const { data: repos } = await octokit.request('GET /users/{username}/repos', {
-			username: user.login,
+		const { data: repos } = await octokit.request('GET /user/repos', {
+			per_page: 100,
+			affiliation: "owner",
+			visibility: webhook?.visibility || "all"
 		})
 		repos.forEach((v, i, a) => a[i] = v.name);
 		const filtered = repos.filter(v => !webhook?.exclude?.includes(v));
@@ -31,8 +33,11 @@ async function main(webhook) {
 
 	switch (webhook?.mode || config.mode) {
 		case 'create': {
+			let failed = 0;
 			const webhookIDs = {};
-			for (const repo of webhook.repos) {
+			const activeHooks = Object.keys(webhook?.webhookIDs ?? {})
+			const repos = webhook.repos.filter(v => !activeHooks.includes(v))
+			for (const repo of repos) {
 				try {
 					const { data } = await octokit.request('POST /repos/{owner}/{repo}/hooks', {
 						owner: user.login,
@@ -64,11 +69,13 @@ async function main(webhook) {
 					else throw new Error(`Failed to deliver the test ping for ${repo} with id: ${data.id}\n\tThe webhook most likely is still created though.`)
 					webhook.webhookIDs = { ...webhook.webhookIDs, ...webhookIDs }
 				} catch (e) {
+					failed++;
 					console.log(error(` ! Failed to create a webhook for ${repo}.`))
 					console.log(error(`\t${e?.response?.data?.errors?.[0].message || e.message || e}`))
 					if (config?.fullLogging) console.log(e)
 				}
 			}
+			console.log(success(` > Successfully added a webhook to ${repos.length - failed} repositories!`))
 		} break;
 
 		case "delete": {
@@ -89,6 +96,8 @@ async function main(webhook) {
 					if (config?.fullLogging) console.log(e)
 				}
 			}
+
+			console.log(success(` > Successfully deleted ${repos.length} webhooks!`))
 		} break;
 
 		case 'test': {
