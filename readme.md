@@ -90,7 +90,7 @@ Here is an example with all the required settings:
 
 | Value	| Options 	| Description 	|
 |-----	|---------	|-------------	|
-| `Key` | GitHub personal access token| A token with repository access. Generate one with the correct settings [here](https://github.com/settings/tokens/new?scopes=repo)|
+| `key` | GitHub personal access token| A token with repository access. Generate one with the correct settings [here](https://github.com/settings/tokens/new?scopes=repo)|
 | `use` | Webhook index or `*` | Add the index of the webhook to update or `*` to update all webhooks. |
 | `exclude` | Webhook index | Webhooks here will _not_ be updated| 
 | `mode` | create, delete, test | What to do with the webhooks. Create will create webhooks. Delete will delete webhooks. Test will test webhooks. |
