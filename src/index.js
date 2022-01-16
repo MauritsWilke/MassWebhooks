@@ -101,7 +101,9 @@ async function main(webhook) {
 		} break;
 
 		case 'test': {
-			for (const repo of webhook.repos) {
+			const activeHooks = Object.keys(webhook?.webhookIDs ?? {})
+			const repos = webhook.repos.filter(v => activeHooks.includes(v))
+			for (const repo of repos) {
 				try {
 					const testMode = config?.testMode === "tests" ? "tests" : "pings";
 					await octokit.request(`POST /repos/{owner}/{repo}/hooks/{hook_id}/${testMode}`, {
@@ -120,6 +122,7 @@ async function main(webhook) {
 					else throw new Error(`Failed to deliver the test ping for ${repo} with id: ${webhook.webhookIDs[repo]}`)
 				} catch (e) {
 					console.log(error(` ! Test failed for ${repo}.\n\tThis likely happened because of the delay in GitHub data updates`))
+					console.log(error(`\tTo manually check the webhook, go to https://github.com/${user.login}/${repo}/settings/hooks`))
 					if (config?.fullLogging) console.log(e)
 				}
 			}
