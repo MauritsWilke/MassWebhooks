@@ -67,13 +67,24 @@ async function main(webhook) {
 
 					if (deliveries[0]?.status === "OK") console.log(success(` > Succesfully created a webhook for ${repo} with id: ${data.id}`))
 					else throw new Error(`Failed to deliver the test ping for ${repo} with id: ${data.id}\n\tThe webhook most likely is still created though.`)
-					webhook.webhookIDs = { ...webhook.webhookIDs, ...webhookIDs }
+
 				} catch (e) {
-					failed++;
-					console.log(error(` ! Failed to create a webhook for ${repo}.`))
-					console.log(error(`\t${e?.response?.data?.errors?.[0].message || e.message || e}`))
-					if (config?.fullLogging) console.log(e)
+					if (e?.response?.data?.errors?.[0]?.message === "Hook already exists on this repository") {
+						const { data: repos } = await octokit.request('GET /repos/{owner}/{repo}/hooks', {
+							owner: user.login,
+							repo: repo
+						})
+						const existingRepo = repos.filter(repo => repo.config.url === webhook.url)
+						webhookIDs[repo] = existingRepo[0].id;
+						console.log(success(` > A webhook with this url already existed for ${repo}. Addded the ID to the config`))
+					} else {
+						failed++;
+						console.log(error(` ! Failed to create a webhook for ${repo}.`))
+						console.log(error(`\t${e?.response?.data?.errors?.[0].message || e.message || e}`))
+						if (config?.fullLogging) console.log(e)
+					}
 				}
+				webhook.webhookIDs = { ...webhook.webhookIDs, ...webhookIDs }
 			}
 			console.log(success(` > Successfully added a webhook to ${repos.length - failed} repositories!`))
 		} break;
