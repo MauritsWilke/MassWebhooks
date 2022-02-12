@@ -1,6 +1,6 @@
 {
 	"name": "mass-webhooks",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Mass Webhooks is an application to easily add a webhook to all of your github repositories!",
 	"main": "dist/index.js",
 	"bin": "dist/index.js",
