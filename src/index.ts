@@ -249,6 +249,16 @@ if (mode === "test" || mode === "delete") {
 	repositories = exists
 }
 
+if (mode === "create") {
+	events = await getEvents();
+	contentType = await getContentType();
+}
+
+if (mode === "test") {
+	const verbal = await getVerbal();
+	testVerbal = verbal ? "tests" : "pings";
+}
+
 if (repositories.length === 0) {
 	console.log(chalk.redBright`No repositories found using this webhook! Use the "create" mode to start adding some!`)
 	finish()
@@ -258,16 +268,12 @@ const selectedRepos = await selectRepos(repositories);
 for (const repository of selectedRepos) {
 	switch (mode) {
 		case "create":
-			events = await getEvents();
-			contentType = await getContentType();
 			await createWebhook(repository)
 			break;
 		case "delete":
 			await deleteWebhook(repository)
 			break;
 		case "test":
-			const verbal = await getVerbal();
-			testVerbal = verbal ? "tests" : "pings";
 			await testWebhook(repository)
 			break;
 	}

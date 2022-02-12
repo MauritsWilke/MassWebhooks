@@ -29,5 +29,8 @@
 	"homepage": "https://github.com/MauritsWilke/MassWebhooks#readme",
 	"devDependencies": {
 		"@types/inquirer": "^8.2.0"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }
