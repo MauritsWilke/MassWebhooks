@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"watch": true,
+		"strict": true,
+		"experimentalDecorators": true,
+		"noImplicitReturns": true,
+		"noImplicitAny": false,
+		"outDir": "dist",
+		"moduleResolution": "node",
+		"allowSyntheticDefaultImports": true,
+		"module": "es2022"
+	}
+}

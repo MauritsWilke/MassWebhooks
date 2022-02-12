@@ -1,8 +1,33 @@
 {
-	"main": "src/index.js",
+	"name": "mass-webhooks",
+	"version": "1.0.0",
+	"description": "Mass Webhooks is an application to easily add a webhook to all of your github repositories!",
+	"main": "dist/index.js",
+	"bin": "dist/index.js",
+	"type": "module",
 	"dependencies": {
 		"@octokit/core": "^3.5.1",
-		"chalk": "^5.0.0"
+		"chalk": "^5.0.0",
+		"inquirer": "^8.2.0",
+		"nanospinner": "^1.0.0"
 	},
-	"type": "module"
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/MauritsWilke/MassWebhooks.git"
+	},
+	"keywords": [
+		"github",
+		"webhook",
+		"webhooks",
+		"mass-create"
+	],
+	"author": "Maurits Wilke",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/MauritsWilke/MassWebhooks/issues"
+	},
+	"homepage": "https://github.com/MauritsWilke/MassWebhooks#readme",
+	"devDependencies": {
+		"@types/inquirer": "^8.2.0"
+	}
 }
