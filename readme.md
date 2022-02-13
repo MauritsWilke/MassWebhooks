@@ -7,3 +7,4 @@ Simply go to your terminal and run
 ```
 npx mass-webhooks
 ```
+This will prompt you to install the package after which you can follow the instructions provided by the package!
