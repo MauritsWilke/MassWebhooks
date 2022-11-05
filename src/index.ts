@@ -8,6 +8,7 @@ import { getUser } from "./prompts/getUser.js";
 import { getRepositories } from "./prompts/getRepositories.js";
 
 import { Logger } from "./logger.js";
+import { getMode } from "./prompts/getMode.js";
 const logger = new Logger();
 
 
@@ -26,6 +27,7 @@ const octokit = new Octokit({
 
 let spinner = createSpinner(logger.log("Getting user", false)).start();
 const user = await getUser(octokit);
+
 if("user" in user) {
 	const errorMessage = user?.user?.response?.data?.message ? "Your token is invalid!" : "Something went wrong trying to fetch the user";
 	spinner.error({ text: logger.error(errorMessage) });
@@ -40,3 +42,16 @@ if("user" in repositories){
 }
 
 spinner.success({ text: logger.log(`Succesfully fetched all repositories!`, false) });
+
+const mode = await getMode();
+
+// if (mode === "Test" || mode === "Delete") {
+// 	const hasWebhook: any[] = []
+// 	const spinner = createSpinner(chalk.greenBright(`> Getting repositories that have the provided webhook`)).start()
+// 	for (const repo of repositories) {
+// 		const hasHook = await hasWebhook(repo);
+// 		if (hasHook) exists.push(repo)
+// 	}
+// 	spinner.success({ text: chalk.greenBright(`Succesfully got all repositories with the provided webhook!`) })
+// 	repositories = exists
+// }
