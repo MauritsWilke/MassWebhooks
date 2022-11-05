@@ -6,9 +6,12 @@ import { getWebhook } from "./prompts/getWebhook.js";
 import { getAuthKey } from "./prompts/getAuthKey.js";
 import { getUser } from "./prompts/getUser.js";
 import { getRepositories } from "./prompts/getRepositories.js";
+import { hasWebhook } from "./hasWebhook.js";
 
 import { Logger } from "./logger.js";
 import { getMode } from "./prompts/getMode.js";
+import { getEvents } from "./prompts/getEvents.js";
+import { getContentType } from "./prompts/getContentType.js";
 const logger = new Logger();
 
 
@@ -45,13 +48,30 @@ spinner.success({ text: logger.log(`Succesfully fetched all repositories!`, fals
 
 const mode = await getMode();
 
-// if (mode === "Test" || mode === "Delete") {
-// 	const hasWebhook: any[] = []
-// 	const spinner = createSpinner(chalk.greenBright(`> Getting repositories that have the provided webhook`)).start()
-// 	for (const repo of repositories) {
-// 		const hasHook = await hasWebhook(repo);
-// 		if (hasHook) exists.push(repo)
-// 	}
-// 	spinner.success({ text: chalk.greenBright(`Succesfully got all repositories with the provided webhook!`) })
-// 	repositories = exists
-// }
+const repositoryWithHook: number[] = []
+if (mode === "Test" || mode === "Delete") {
+	const spinner = createSpinner(logger.log(`Getting repositories that have the provided webhook`, false)).start()
+	for (const repo of repositories) {
+		const hasHook = await hasWebhook(octokit, user, webhookURL, repo);
+		if (hasHook) repositoryWithHook.push(+repo);
+	}
+	spinner.success({ text: logger.log(`Succesfully got all repositories with the provided webhook!`, false) });
+}
+
+let events:string[];
+let contentType:"json" | "form";
+if (mode === "Create") {
+	events = await getEvents();
+	contentType = await getContentType();
+}
+
+switch(mode){
+	case "Create":
+		break;
+	
+	case "Delete":
+		break;
+
+	case "Test":
+		break;
+}

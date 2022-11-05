@@ -29,7 +29,7 @@
 	},
 	"homepage": "https://github.com/MauritsWilke/MassWebhooks#readme",
 	"devDependencies": {
-		"@types/inquirer": "^8.2.0"
+		"@types/inquirer": "^8.2.4"
 	},
 	"publishConfig": {
 		"access": "public"
