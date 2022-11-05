@@ -1,5 +1,6 @@
 import chalk from "chalk";
 
+// This logger has a "don't log" function because it's also secretly a text styler :L
 export class Logger {
 	constructor(){}
 
@@ -9,10 +10,10 @@ export class Logger {
 		return coloured
 	}
 
-	error(message:string, exit?:number, log = true){
+	error(message:string, exit?:number|null, log = true){
 		const coloured = chalk.redBright(`! ${message}`);
 		if(log) console.log(coloured);
-		if(exit) process.exit(exit);
+		if(exit !== null) process.exit(exit);
 		else return coloured;
 	}
 
