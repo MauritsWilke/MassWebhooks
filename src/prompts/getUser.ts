@@ -1,5 +1,5 @@
 import type { Octokit } from "@octokit/core";
-import type { CustomError, User } from "./types.js"
+import type { CustomError, User } from "../types.js"
 
 export async function getUser(octokit: Octokit) {
 	try {

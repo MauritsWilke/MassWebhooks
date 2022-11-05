@@ -1,5 +1,5 @@
 import type { Octokit } from "@octokit/core";
-import { CustomError, Repository } from "./types.js";
+import { CustomError, Repository } from "../types.js";
 
 export async function getRepositories(octokit: Octokit):Promise<string[]|CustomError>{
 	try {

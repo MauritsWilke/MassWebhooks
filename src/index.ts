@@ -2,12 +2,12 @@
 import { Octokit } from "@octokit/core";
 import { createSpinner } from "nanospinner";
 
-import { getWebhook } from "./getWebhook.js";
-import { getAuthKey } from "./getAuthKey.js";
+import { getWebhook } from "./prompts/getWebhook.js";
+import { getAuthKey } from "./prompts/getAuthKey.js";
+import { getUser } from "./prompts/getUser.js";
+import { getRepositories } from "./prompts/getRepositories.js";
 
 import { Logger } from "./logger.js";
-import { getUser } from "./getUser.js";
-import { getRepositories } from "./getRepositories.js";
 const logger = new Logger();
 
 
