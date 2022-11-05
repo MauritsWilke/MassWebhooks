@@ -3,16 +3,22 @@ import chalk from "chalk";
 export class Logger {
 	constructor(){}
 
-	success(message:string){
-		console.log(chalk.greenBright(`> ${message}`));
+	success(message:string, log = true){
+		const coloured = chalk.greenBright(`> ${message}`)
+		if(log) console.log(coloured);
+		return coloured
 	}
 
-	error(message:string, exit?:number){
-		console.log(chalk.redBright(`! ${message}`));
+	error(message:string, exit?:number, log = true){
+		const coloured = chalk.redBright(`! ${message}`);
+		if(log) console.log(coloured);
 		if(exit) process.exit(exit);
+		else return coloured;
 	}
 
-	log(message:string){
-		console.log(chalk.greenBright(`> ${message}`))
+	log(message:string, log = true){
+		const coloured = chalk.greenBright(`> ${message}`); 
+		if(log) console.log(coloured);
+		return coloured;
 	}
 }
