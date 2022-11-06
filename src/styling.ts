@@ -9,5 +9,5 @@ export class Styling {
 
 	warning = (message:string) => chalk.yellowBright(`⚠ ${message}`);
 
-	default = (message:string) => chalk.blueBright(`> ${message}`);
+	default = (message:string) => chalk.bold.blueBright(`> ${message}`);
 }
