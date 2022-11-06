@@ -1,7 +1,7 @@
 import type { Octokit } from "@octokit/core";
-import type { User } from "./types.js"
+import type { User } from "../types.js"
 import { createSpinner } from "nanospinner";
-import { Styling } from "./styling.js";
+import { Styling } from "../styling.js";
 const Style = new Styling();
 
 export async function getUser(octokit: Octokit):Promise<User> {
