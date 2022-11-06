@@ -7,9 +7,9 @@ export async function getMode(){
 		type: "list",
 		message: "What mode do you want to use?",
 		choices: [
-			"Create: add this webhook to repositories",
-			"Delete: delete this webhook from repositories",
-			"Test: ping repositories with this webhook"
+			"Create: add webhooks to repositories",
+			"Delete: delete webhooks from repositories",
+			"Test: ping repositories with webhooks"
 		]
 	});
 
