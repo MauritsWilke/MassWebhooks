@@ -2,7 +2,7 @@
 import { Octokit } from "@octokit/core";
 
 import { getAuthKey } from "./prompts/prompts.js";
-import { getUser } from "./requests/requests.js";
+import { getRepositories, getUser } from "./requests/requests.js";
 import { Styling } from "./styling.js";
 const Style = new Styling();
 
@@ -14,3 +14,4 @@ const octokit = new Octokit({
 });
 
 const user = await getUser(octokit);
+const repositories = await getRepositories(octokit);
