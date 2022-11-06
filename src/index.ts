@@ -20,8 +20,8 @@ logger.log("Add webhooks to all of your GitHub repositories!");
 
 
 // Webhook URL
-const webhookURL = await getWebhook();
-if (!webhookURL) logger.error("Please provide a webhook URL!", 1);
+const webhooks = await getWebhook();
+if (webhooks.length === 0) logger.error("Please provide at least one webhook URL!", 1);
 
 
 // Auth key
@@ -62,9 +62,12 @@ const mode = await getMode();
 const repositoriesWithHook: number[] = []
 if (mode === "Test" || mode === "Delete") {
 	const spinner = createSpinner(logger.log(`Getting repositories that have the provided webhook`, false)).start()
+
 	for (const repo of repositories) {
-		const hasHook = await hasWebhook(octokit, user, webhookURL, repo);
-		if (hasHook) repositoriesWithHook.push(+repo);
+		for(const hook of webhooks){
+			const hasHook = await hasWebhook(octokit, user, hook, repo);
+			if (hasHook) repositoriesWithHook.push(+repo);
+		}
 	}
 
 	if(repositoriesWithHook.length === 0){
