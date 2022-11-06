@@ -1,14 +1,13 @@
 {
+	"compileOnSave": true,
 	"compilerOptions": {
 		"target": "esnext",
+		"module": "es2022",
 		"watch": true,
 		"strict": true,
-		"experimentalDecorators": true,
-		"noImplicitReturns": true,
-		"noImplicitAny": false,
 		"outDir": "dist",
-		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true,
-		"module": "es2022"
-	}
+		"noImplicitReturns": true,
+	},
+	"exclude": ["./old"],
+	"include": ["./src"]
 }
