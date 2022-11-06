@@ -6,23 +6,23 @@ export class Styling {
 		this.message = "";
 	};
 
-	success = (message:string) => {
-		this.message = chalk.greenBright(`✓ ${message}`);
+	success = (message:string, icon = true) => {
+		this.message = chalk.greenBright(`${icon ? "✓ " : ""}${message}`);
 		return this;
 	}
 
-	error = (message:string) => {
-		this.message = chalk.redBright(`! ${message}`);
+	error = (message:string, icon = true) => {
+		this.message = chalk.redBright(`${icon ? "! " : ""}${message}`);
 		return this;
 	}
 
-	warning = (message:string) => {
-		this.message = chalk.yellowBright(`⚠ ${message}`);
+	warning = (message:string, icon = true) => {
+		this.message = chalk.yellowBright(`${icon ? "⚠ " : ""}${message}`);
 		return this;
 	}
 
-	default = (message:string) => {
-		this.message = chalk.bold.blueBright(`> ${message}`);
+	default = (message:string, icon = true) => {
+		this.message = chalk.bold.blueBright(`${icon ? "> " : ""}${message}`);
 		return this;
 	}
 

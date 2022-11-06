@@ -2,6 +2,7 @@
 import { Octokit } from "@octokit/core";
 
 import { getAuthKey } from "./prompts/prompts.js";
+import { getUser } from "./getUser.js";
 import { Styling } from "./styling.js";
 const Style = new Styling();
 
@@ -11,3 +12,5 @@ const authKey = await getAuthKey();
 const octokit = new Octokit({
 	auth: authKey
 });
+
+const user = await getUser(octokit);
