@@ -7,6 +7,7 @@
 		"strict": true,
 		"outDir": "dist",
 		"noImplicitReturns": true,
+		"moduleResolution": "node"
 	},
 	"exclude": ["./old"],
 	"include": ["./src/**/*.ts"]
