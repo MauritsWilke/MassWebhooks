@@ -8,7 +8,7 @@
 	"dependencies": {
 		"@octokit/core": "^3.5.1",
 		"chalk": "^5.0.0",
-		"inquirer": "^8.2.4",
+		"inquirer": "^9.1.4",
 		"nanospinner": "^1.0.0"
 	},
 	"repository": {
@@ -29,7 +29,7 @@
 	},
 	"homepage": "https://github.com/MauritsWilke/MassWebhooks#readme",
 	"devDependencies": {
-		"@types/inquirer": "^8.2.4"
+		"@types/inquirer": "^9.0.3"
 	},
 	"publishConfig": {
 		"access": "public"
