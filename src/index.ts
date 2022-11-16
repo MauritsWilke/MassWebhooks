@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { Octokit } from "@octokit/core";
 
-import { getAuthKey, getConfirmation, getMode, getSelectedRepositories, getWebhooks } from "./prompts/prompts.js";
-import { deleteWebhooks, filterRepositories, getRepositories, getUser } from "./requests/requests.js";
+import { getAuthKey, getConfirmation, getContentType, getEvents, getMode, getSelectedRepositories, getWebhooks } from "./prompts/prompts.js";
+import { createWebhook, deleteWebhooks, filterRepositories, getRepositories, getUser } from "./requests/requests.js";
 import type { ConfirmationChoice, filteredRepo, Modes } from "./types"
 import { Styling } from "./styling.js";
 const Style = new Styling();
@@ -36,9 +36,13 @@ while (confirmation !== "Yes") {
 
 switch (mode) {
 	case "Create":
-		// get events
-		// confirm
-		// for repo of selected repos, create webhook forEach webhookURLs[X]
+		const contentType = await getContentType();
+		const events = await getEvents();
+		for (const repo of selectedRepositories) {
+			for (const webhook of webhookURLs) {
+				await createWebhook(octokit, user, repo, events, webhook, contentType);
+			}
+		}
 		break;
 	case "Delete":
 		for (const repo of filteredRepositories) {
