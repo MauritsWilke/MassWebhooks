@@ -24,3 +24,4 @@ let filteredRepositories:filteredRepos = [];
 if(mode !== "Create"){
 	filteredRepositories = await filterRepositories(octokit, user, repositories, webhookURLs)
 } else selectedRepositories = await getSelectedRepositories(repositories);
+console.log(filterRepositories)
