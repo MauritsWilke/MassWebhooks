@@ -1,7 +1,7 @@
 import inquirer from "inquirer";
 import type { ConfirmationChoice } from "../types";
 
-export async function getConfirmation(mode: string, repositoryCount: number){
+export async function getConfirmation(mode: string, repositoryCount: number) {
 	const { confirmation }: { confirmation: ConfirmationChoice } = await inquirer.prompt({
 		name: "confirmation",
 		type: "list",

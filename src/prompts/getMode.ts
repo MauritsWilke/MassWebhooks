@@ -1,7 +1,7 @@
 import inquirer from "inquirer";
 import type { Modes } from "../types";
 
-export async function getMode(){
+export async function getMode() {
 	const { mode } = await inquirer.prompt({
 		name: "mode",
 		type: "list",
@@ -13,7 +13,7 @@ export async function getMode(){
 		]
 	});
 
-	const selectedMode:Modes = mode.match(/\w+/)[0]!;
+	const selectedMode: Modes = mode.match(/\w+/)[0]!;
 
 	return selectedMode;
 }

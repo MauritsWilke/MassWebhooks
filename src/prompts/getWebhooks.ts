@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
 
-export async function getWebhooks():Promise<string[]> {
+export async function getWebhooks(): Promise<string[]> {
 	let { webhook }: { webhook: string } = await inquirer.prompt({
 		name: "webhook",
 		type: "input",
