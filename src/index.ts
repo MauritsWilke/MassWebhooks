@@ -2,8 +2,8 @@
 import { Octokit } from "@octokit/core";
 
 import { getAuthKey, getConfirmation, getMode, getSelectedRepositories, getWebhooks } from "./prompts/prompts.js";
-import { filterRepositories, getRepositories, getUser } from "./requests/requests.js";
-import type { ConfirmationChoice, filteredRepos, Modes } from "./types"
+import { deleteWebhooks, filterRepositories, getRepositories, getUser } from "./requests/requests.js";
+import type { ConfirmationChoice, filteredRepo, Modes } from "./types"
 import { Styling } from "./styling.js";
 const Style = new Styling();
 
@@ -17,19 +17,36 @@ const octokit = new Octokit({
 const user = await getUser(octokit);
 let repositories = await getRepositories(octokit);
 
-let confirmation:ConfirmationChoice = "No, re-enter information";
-let mode:Modes;
-let webhookURLs:string[];
-let selectedRepositories :string[] = [];
-let filteredRepositories:filteredRepos = [];
-while(confirmation !== "Yes") {
+let confirmation: ConfirmationChoice = "No, re-enter information";
+let mode: Modes = "Create";
+let webhookURLs: string[] = [];
+let selectedRepositories: string[] = [];
+let filteredRepositories: filteredRepo[] = [];
+while (confirmation !== "Yes") {
 	mode = await getMode();
 	webhookURLs = await getWebhooks();
 
-	if(mode !== "Create"){
+	if (mode !== "Create") {
 		filteredRepositories = await filterRepositories(octokit, user, repositories, webhookURLs)
 	} else selectedRepositories = await getSelectedRepositories(repositories);
 
 	confirmation = await getConfirmation(mode, selectedRepositories.length || filteredRepositories.length);
-	if(confirmation === "No, exit program") process.exit(1);
+	if (confirmation === "No, exit program") process.exit(1);
+}
+
+console.log(filteredRepositories)
+
+switch (mode) {
+	case "Create":
+		// get events
+		// confirm
+		// for repo of selected repos, create webhook forEach webhookURLs[X]
+		break;
+	case "Delete":
+		for (const repo of filteredRepositories) {
+			await deleteWebhooks(octokit, user, repo);
+		}
+		break;
+	case "Test":
+		break;
 }
