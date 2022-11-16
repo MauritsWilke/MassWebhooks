@@ -3,7 +3,7 @@ import { Octokit } from "@octokit/core";
 
 import { getAuthKey, getConfirmation, getMode, getSelectedRepositories, getWebhooks } from "./prompts/prompts.js";
 import { filterRepositories, getRepositories, getUser } from "./requests/requests.js";
-import type { ConfirmationChoice, filteredRepos } from "./types"
+import type { ConfirmationChoice, filteredRepos, Modes } from "./types"
 import { Styling } from "./styling.js";
 const Style = new Styling();
 
@@ -18,12 +18,14 @@ const user = await getUser(octokit);
 let repositories = await getRepositories(octokit);
 
 let confirmation:ConfirmationChoice = "No, re-enter information";
+let mode:Modes;
+let webhookURLs:string[];
+let selectedRepositories :string[] = [];
+let filteredRepositories:filteredRepos = [];
 while(confirmation !== "Yes") {
-	const mode = await getMode();
-	const webhookURLs = await getWebhooks();
+	mode = await getMode();
+	webhookURLs = await getWebhooks();
 
-	let selectedRepositories :string[] = [];
-	let filteredRepositories:filteredRepos = [];
 	if(mode !== "Create"){
 		filteredRepositories = await filterRepositories(octokit, user, repositories, webhookURLs)
 	} else selectedRepositories = await getSelectedRepositories(repositories);
