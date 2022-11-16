@@ -34,8 +34,6 @@ while (confirmation !== "Yes") {
 	if (confirmation === "No, exit program") process.exit(1);
 }
 
-console.log(filteredRepositories)
-
 switch (mode) {
 	case "Create":
 		// get events

@@ -14,7 +14,7 @@ export async function deleteWebhooks(octokit: Octokit, user: User, repo: filtere
 				hook_id: hook
 			})
 
-			spinner.success({ text: `${Style.success(`Succesfully deleted the webhook with ID ${hook} for ${repo[0].name}!`)}` });
+			spinner.success({ text: `${Style.success(`Succesfully deleted the webhook with ID ${hook} for ${repo[0].name}!`, false)}` });
 		} catch (e) {
 			const errorMessage = Style.error(`Failed to delete the webhook with ID ${hook} for ${repo[0].name}, it may no longer exist.\nTo manually delete this webhook, go to https://github.com/${user.login}/${repo[0].name}/settings/hooks`, false);
 			spinner.error({
