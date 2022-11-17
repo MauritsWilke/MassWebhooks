@@ -6,3 +6,4 @@ export { getConfirmation } from "./getConfirmation.js";
 export { getContentType } from "./getContentType.js";
 export { getEvents } from "./getEvents.js";
 export { getVerbal } from "./getVerbal.js";
+export { getThanks } from "./getThanks.js";

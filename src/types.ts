@@ -7,6 +7,7 @@ export type CustomRepository = { name: string, private: boolean };
 export type filteredRepo = [repository: CustomRepository, webhooks: number[]]
 export type ConfirmationChoice = "Yes" | "No, re-enter information" | "No, exit program";
 export type ContentType = "json" | "form";
+export type ThanksMode = "Star me on GitHub" | "Follow @MauritsWilke on GitHub" | "Get me a donation link!";
 
 const Events = {
 	"All events (usually best)": "*",

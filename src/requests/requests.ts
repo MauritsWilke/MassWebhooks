@@ -5,3 +5,5 @@ export { listWebhooks } from "./listWebhooks.js";
 export { deleteWebhooks } from "./deleteWebhook.js";
 export { createWebhook } from "./createWebhook.js";
 export { testWebhooks } from "./testWebhooks.js";
+export { starRepo } from "./starRepo.js";
+export { followMau } from "./followMau.js";
