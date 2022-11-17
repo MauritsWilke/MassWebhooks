@@ -4,3 +4,4 @@ export { filterRepositories } from "./filterRepositories.js";
 export { listWebhooks } from "./listWebhooks.js";
 export { deleteWebhooks } from "./deleteWebhook.js";
 export { createWebhook } from "./createWebhook.js";
+export { testWebhooks } from "./testWebhooks.js";

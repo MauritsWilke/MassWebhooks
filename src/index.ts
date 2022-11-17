@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { Octokit } from "@octokit/rest";
 
-import { getAuthKey, getConfirmation, getContentType, getEvents, getMode, getSelectedRepositories, getWebhooks } from "./prompts/prompts.js";
-import { createWebhook, deleteWebhooks, filterRepositories, getRepositories, getUser } from "./requests/requests.js";
+import { getAuthKey, getConfirmation, getContentType, getEvents, getMode, getSelectedRepositories, getVerbal, getWebhooks } from "./prompts/prompts.js";
+import { createWebhook, deleteWebhooks, filterRepositories, getRepositories, getUser, testWebhooks } from "./requests/requests.js";
 import type { ConfirmationChoice, filteredRepo, Modes } from "./types"
 import { Styling } from "./styling.js";
 const Style = new Styling();
@@ -44,11 +44,17 @@ switch (mode) {
 			}
 		}
 		break;
+
 	case "Delete":
 		for (const repo of filteredRepositories) {
 			await deleteWebhooks(octokit, user, repo);
 		}
 		break;
+
 	case "Test":
+		const verbal = await getVerbal();
+		for (const repo of filteredRepositories) {
+			await testWebhooks(octokit, user, repo, verbal);
+		}
 		break;
 }
