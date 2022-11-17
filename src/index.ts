@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { Octokit } from "@octokit/core";
+import { Octokit } from "@octokit/rest";
 
 import { getAuthKey, getConfirmation, getContentType, getEvents, getMode, getSelectedRepositories, getWebhooks } from "./prompts/prompts.js";
 import { createWebhook, deleteWebhooks, filterRepositories, getRepositories, getUser } from "./requests/requests.js";
@@ -15,7 +15,7 @@ const octokit = new Octokit({
 });
 
 const user = await getUser(octokit);
-let repositories = await getRepositories(octokit);
+let repositories = await getRepositories(octokit, user);
 
 let confirmation: ConfirmationChoice = "No, re-enter information";
 let mode: Modes = "Create";

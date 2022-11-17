@@ -1,7 +1,6 @@
-import type { Octokit } from "@octokit/core";
 import { createSpinner } from "nanospinner";
-import type { CustomRepository, filteredRepo, User } from "../types.js";
-import { hasWebhook } from "./hasWebhook.js";
+import type { CustomRepository, filteredRepo, User, Octokit } from "../types.js";
+import { listWebhooks } from "./listWebhooks.js";
 import { Styling } from "../styling.js";
 const Style = new Styling();
 
@@ -11,11 +10,14 @@ export async function filterRepositories(octokit: Octokit, user: User, repositor
 
 	try {
 		for (const repo of repositories) {
-			const activeHooks: number[] = [];
-			for (let hook of webhooks) {
-				const hasHook = await hasWebhook(octokit, user, hook, repo.name);
-				if (hasHook) activeHooks.push(hasHook);
-			}
+			const repoHooks = await listWebhooks(octokit, user, repo.name);
+			if (!repoHooks) continue;
+
+			const activeHooks = repoHooks.filter(hook => {
+				if (!hook.config?.url) return false;
+				return webhooks.includes(hook.config?.url)
+			}).map(hook => hook.id)
+
 			if (activeHooks.length > 0) hasWebhooks.push([repo, activeHooks])
 		}
 
@@ -28,6 +30,7 @@ export async function filterRepositories(octokit: Octokit, user: User, repositor
 		const styledMessage = `${Style.success(`Succesfully retrieved all repositories using these webhooks!`, false)}`;
 		spinner.success({ text: styledMessage });
 		return hasWebhooks;
+
 	} catch {
 		const styledMessage = `${Style.error("Failed to fetch repositories, please try again later", false)}`;
 		spinner.error({ text: styledMessage });

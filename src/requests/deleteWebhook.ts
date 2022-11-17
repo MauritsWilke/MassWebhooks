@@ -8,7 +8,7 @@ export async function deleteWebhooks(octokit: Octokit, user: User, repo: filtere
 		const spinner = createSpinner(`${Style.default(`Deleting a webhook for ${repo[0].name} with ID ${hook}`)}`).start()
 
 		try {
-			await octokit.request('DELETE /repos/{owner}/{repo}/hooks/{hook_id}', {
+			await octokit.rest.repos.deleteWebhook({
 				owner: user.login,
 				repo: repo[0].name,
 				hook_id: hook

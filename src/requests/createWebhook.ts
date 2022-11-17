@@ -7,16 +7,16 @@ export async function createWebhook(octokit: Octokit, user: User, repo: string, 
 	const spinner = createSpinner(`${Style.default(`Creating a webhook for ${repo}`)}`).start()
 
 	try {
-		await octokit.request('POST /repos/{owner}/{repo}/hooks', {
+		await octokit.rest.repos.createWebhook({
 			owner: user.login,
 			repo: repo,
-			name: 'web',
 			events: events,
 			config: {
 				url: webhook,
 				content_type: contentType
 			}
 		})
+
 		spinner.success({ text: `${Style.success(`Succesfully created a webhook for ${repo}!`, false)}` });
 
 	} catch (err: any) {
