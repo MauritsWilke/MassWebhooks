@@ -7,13 +7,15 @@ export async function getWebhooks(): Promise<string[]> {
 		message: "Please enter your webhook URL, you can input several seperated by a space: "
 	});
 
-	const webhooks = webhook.split(/\s/g);
+	let webhooks = webhook.split(/\s/g);
 
 	webhooks.forEach((hook, index) => {
 		if (hook.match(/discord\.com/) && !hook.endsWith("github")) {
 			webhooks[index] = `${hook}/github`;
 		}
 	})
+
+	webhooks = [...new Set(webhooks)]; // Removing duplicates, no need to do things twice :)
 
 	return webhooks;
 }
